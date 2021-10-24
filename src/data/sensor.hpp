@@ -4,25 +4,34 @@
 
 #define _sensor
 
-template<typename INSIDE_TYPENAME> 
+template<typename DATA_TYPENAME,typename CUSTOM_DATA_TYPENAME> 
 class Sensor {    
     protected:
-        INSIDE_TYPENAME Inside;
+        DATA_TYPENAME Inside;
         String SensorName;
+        CUSTOM_DATA_TYPENAME customData;
 
     public:
-        Sensor(String SensorName, INSIDE_TYPENAME Inside) {
+        Sensor(String SensorName, DATA_TYPENAME Inside) {
             this->SensorName = SensorName;
             this->Inside = Inside;
         }
 
-        INSIDE_TYPENAME& setDataInside() {
+        DATA_TYPENAME& setData() {
             return this->Inside;
         }
         
 
-        INSIDE_TYPENAME getDataInside() {
+        DATA_TYPENAME getData() {
             return this->Inside;
+        }
+
+        SET_CUSTOM_DATA& setCustomData() {
+            return this->customData;
+        }
+
+        GET_CUSTOM_DATA setCustomData() {
+            return this->customData;
         }
 
 };
