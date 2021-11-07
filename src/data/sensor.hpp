@@ -26,11 +26,11 @@ class Sensor {
             return this->Inside;
         }
 
-        SET_CUSTOM_DATA& setCustomData() {
+        CUSTOM_DATA_TYPENAME& setCustomData() {
             return this->customData;
         }
 
-        GET_CUSTOM_DATA setCustomData() {
+        CUSTOM_DATA_TYPENAME getCustomData() {
             return this->customData;
         }
 

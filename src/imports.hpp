@@ -1,7 +1,7 @@
 
 #include <Arduino.h>
 
-#ifndef degreeIconDef
+#ifndef LCD_Icons
 #include <characters/degree.hpp>
 #endif
 
@@ -29,7 +29,7 @@ DallasTemperature sensors(&oneWire);
 
 /********************************************************************/ 
 
-// #include <RTClib.h>
+#include <RTClib.h>
 
 // #ifndef _LED_DATA
 //   #include <data/LED_DATA.h>
@@ -47,9 +47,19 @@ DallasTemperature sensors(&oneWire);
     #include <data/sensors.hpp>
 #endif
 
-// #ifndef _DHT_SENSOR_H
-//   #include <sensors/DHT11_SENSOR.h>
-// #endif
+#ifndef MQ137_SENSOR_
+  #include <data/MQ137_sensor.hpp>
+#endif
+
+
+#ifndef RefillWaterFunc
+    #include <utils/refillWater.hpp>
+#endif
+
+
+#ifndef WaterChangeFunc
+    #include <utils/waterChange.hpp>
+#endif
 
 // #ifndef _triggers 
 //   #include <utils/triggers.h>

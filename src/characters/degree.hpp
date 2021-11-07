@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #endif
 
-#define degreeIconDef
+#define LCD_Icons
 
 byte degreeIcon[] = {
   B00000,
