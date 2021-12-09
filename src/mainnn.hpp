@@ -33,13 +33,7 @@ int lastTimeMeasuredAmmonia = 1636290751629 - lastWeek;
 
 TM1637Display display = TM1637Display(CLK, DIO);
 
-//variable
-int sensorValue; //adc value
-float outputValueConductivity; //conductivity value
-float outputValueTDS; //TDS value
-
 void setup() {
-  
 
   Wire.begin();
 
@@ -90,32 +84,10 @@ void setup() {
   display.setBrightness(5);
   // Clear the display:
   display.clear();
-
 }
 
 
 void loop() {
-
-    //read the analog in value:
-  sensorValue = analogRead(TDSensor_PIN);
-
-  //Mathematical Conversion from ADC to conductivity (uSiemens)
-  //rumus berdasarkan datasheet
-  outputValueConductivity = (0.2142*sensorValue)+494.93;
-  
-  //Mathematical Conversion from ADC to TDS (ppm)
-  //rumus berdasarkan datasheet
-  outputValueTDS = (0.3417*sensorValue)+281.08;
-  
-  //print the results to the serial monitor:
-  Serial.print("sensor ADC = ");
-  Serial.print(sensorValue);
-  Serial.print("  conductivity (uSiemens)= ");
-  Serial.print(outputValueConductivity);
-  Serial.print("  TDS(ppm)= ");
-  Serial.println(outputValueTDS);
-
-  TDS_Sensor.setData() = outputValueTDS;
 
   // Get current date and time
   DateTime now = rtc.now();
@@ -198,27 +170,25 @@ void loop() {
     pHLevel_Sensor.setData() = (-5.70 * volt + calibration_value) * -1;
     Serial.print("pH: ");
     Serial.println(pHLevel_Sensor.getData());
-
-  if ( Waterlevel_Sensor.getData() < 100) {
-    digitalWrite(SupplyWaterRelay, LOW); // nyala
-
-  }else {
+  // digitalWrite(waterPumpRelay, HIGH);
+  // delay(1000);
     digitalWrite(SupplyWaterRelay, HIGH);
+  delay(1000);
+    digitalWrite(SupplyWaterRelay, LOW);
 
-  }
-  // // int measurings=0;
+  // int measurings=0;
 
-  // //   for (int i = 0; i < samples; i++)
-  // //   {
-  // //       measurings += analogRead(pHSense);
-  // //       delay(10);
+  //   for (int i = 0; i < samples; i++)
+  //   {
+  //       measurings += analogRead(pHSense);
+  //       delay(10);
 
-  // //   }
+  //   }
 
-  // //   float voltage = 5 / adc_resolution * measurings/samples;
-  // //   Serial.print("pH= ");
-  // //   Serial.println(ph(voltage));
-  //   delay(1000);
+  //   float voltage = 5 / adc_resolution * measurings/samples;
+  //   Serial.print("pH= ");
+  //   Serial.println(ph(voltage));
+    delay(1000);
 
 
 }

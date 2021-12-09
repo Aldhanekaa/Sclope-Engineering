@@ -14,7 +14,6 @@
 
 #include <imports.hpp>
 #include <Wire.h> // Library for I2C communication
-#include <TM1637Display.h>
 
 // A0 = Analog Pin, 400 (nilai int) . 30
 // D0 = Digital Pin, (nilai bool, boolean)
@@ -27,19 +26,9 @@ char daysOfTheWeek[7][12] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 int lastWeek =  1000 * 60 * 60 * 24 * 7;
 int lastTimeMeasuredAmmonia = 1636290751629 - lastWeek;
 
-// Define the connections pins for TM1637 4 digit 7 segment display
-#define CLK 41
-#define DIO 39
 
-TM1637Display display = TM1637Display(CLK, DIO);
-
-//variable
-int sensorValue; //adc value
-float outputValueConductivity; //conductivity value
-float outputValueTDS; //TDS value
 
 void setup() {
-  
 
   Wire.begin();
 
@@ -53,10 +42,11 @@ void setup() {
   pinMode(22, INPUT); // 
 
   /* Relay Initialisation */
-  pinMode(SupplyWaterRelay, OUTPUT); // relay for supplying water
-  pinMode(waterPumpRelay, OUTPUT); // relay for water pump 
+  pinMode(SupplyWaterRelay, INPUT); // relay for supplying water
+  pinMode(waterPumpRelay, INPUT); // relay for water pump 
 
   pinMode(KettleRelay, INPUT); // relay for solenoid located at pipe to kettle 
+  pinMode(PtRRelay, INPUT); // relay for solenoid located at pipe for removal (water)
 
   /* end of Relay Initialisation */
 
@@ -86,46 +76,10 @@ void setup() {
   // INISIALISASI RTC (REAL TIME CLOCK)
 
 
-  // Set the display brightness (0-7):
-  display.setBrightness(5);
-  // Clear the display:
-  display.clear();
-
 }
 
 
 void loop() {
-
-    //read the analog in value:
-  sensorValue = analogRead(TDSensor_PIN);
-
-  //Mathematical Conversion from ADC to conductivity (uSiemens)
-  //rumus berdasarkan datasheet
-  outputValueConductivity = (0.2142*sensorValue)+494.93;
-  
-  //Mathematical Conversion from ADC to TDS (ppm)
-  //rumus berdasarkan datasheet
-  outputValueTDS = (0.3417*sensorValue)+281.08;
-  
-  //print the results to the serial monitor:
-  Serial.print("sensor ADC = ");
-  Serial.print(sensorValue);
-  Serial.print("  conductivity (uSiemens)= ");
-  Serial.print(outputValueConductivity);
-  Serial.print("  TDS(ppm)= ");
-  Serial.println(outputValueTDS);
-
-  TDS_Sensor.setData() = outputValueTDS;
-
-  // Get current date and time
-  DateTime now = rtc.now();
-
-  // Create time format to display:
-  int displaytime = (now.hour() * 100) + now.minute();
-
-
-  // Display the current time in 24 hour format with leading zeros enabled and a center colon:
-  display.showNumberDecEx(displaytime, 0b11100000, true);
 
 
   now = rtc.now(); 
@@ -198,27 +152,23 @@ void loop() {
     pHLevel_Sensor.setData() = (-5.70 * volt + calibration_value) * -1;
     Serial.print("pH: ");
     Serial.println(pHLevel_Sensor.getData());
+  digitalWrite(waterPumpRelay, HIGH);
+  delay(1000);
+    digitalWrite(waterPumpRelay, LOW);
 
-  if ( Waterlevel_Sensor.getData() < 100) {
-    digitalWrite(SupplyWaterRelay, LOW); // nyala
+  // int measurings=0;
 
-  }else {
-    digitalWrite(SupplyWaterRelay, HIGH);
+  //   for (int i = 0; i < samples; i++)
+  //   {
+  //       measurings += analogRead(pHSense);
+  //       delay(10);
 
-  }
-  // // int measurings=0;
+  //   }
 
-  // //   for (int i = 0; i < samples; i++)
-  // //   {
-  // //       measurings += analogRead(pHSense);
-  // //       delay(10);
-
-  // //   }
-
-  // //   float voltage = 5 / adc_resolution * measurings/samples;
-  // //   Serial.print("pH= ");
-  // //   Serial.println(ph(voltage));
-  //   delay(1000);
+  //   float voltage = 5 / adc_resolution * measurings/samples;
+  //   Serial.print("pH= ");
+  //   Serial.println(ph(voltage));
+    delay(3000);
 
 
 }

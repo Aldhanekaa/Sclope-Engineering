@@ -16,14 +16,14 @@
 
 
 void waterChangeFunc() {
-    digitalWrite(PtRRelay, HIGH); // 
-    digitalWrite(PtKRelay, LOW); // 
+    // digitalWrite(PtRRelay, HIGH); // 
+    // digitalWrite(PtKRelay, LOW); // 
 
     digitalWrite(waterPumpRelay, HIGH); // start taking water.
     delay(1000);
     digitalWrite(waterPumpRelay, LOW); // stop taking water
 
-    digitalWrite(PtRRelay, LOW); // 
-    digitalWrite(PtKRelay, LOW); // 
+    // digitalWrite(PtRRelay, LOW); // 
+    // digitalWrite(PtKRelay, LOW); // 
     refill_water();
 }

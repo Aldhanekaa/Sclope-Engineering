@@ -1,11 +1,12 @@
-
+#ifndef _sensor
+#include <data/sensor.hpp>
+#endif
 
 
 #ifndef _sensors
-    #include <data/sensors.hpp>
+#define _sensors
 #endif
 
-#define _sensors
 
 Sensor<int, int> Waterlevel_Sensor("Water Level", 0);
 Sensor<int,int> TDS_Sensor("TDS", 0);
@@ -26,16 +27,15 @@ typedef struct pHSensorOtherDataStruct {
 
 Sensor<float, pHSensorOtherData> pHLevel_Sensor("pH Level", 0);
 
-const int TDSensor_PIN =  3;
+const int TDSensor_PIN =  A3;
 const int TemperatureSensor_PIN  = 4;
 const int CLICKED = HIGH;
 
 /* Relay Initialisation */
-const int waterPumpRelay = 22;
-const int SupplyWaterRelay = 23;
-const int KettleRelay = 23;
-const int PtKRelay = 24;
-const int PtRRelay = 25;
+const int SupplyWaterRelay = 42;
+const int waterPumpRelay = 40;
+const int KettleRelay = 44;
+
 
 /* end of Relay I#define PtKRelay 25
 nitialisation */
